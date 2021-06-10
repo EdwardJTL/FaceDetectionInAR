@@ -31,6 +31,14 @@
                                     <action selector="scanButtonPressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="4LE-wl-jmR"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DIy-YJ-hfT">
+                                <rect key="frame" x="314" y="777" width="80" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Results"/>
+                                <connections>
+                                    <action selector="resultButtonPressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="uRi-o7-e7Q"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fQZ-KI-GVf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -38,19 +46,22 @@
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="leading" secondItem="fQZ-KI-GVf" secondAttribute="leading" id="GsS-dJ-CKf"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="bottom" secondItem="U0K-SW-4ec" secondAttribute="bottom" id="VpT-BR-CcM"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="trailing" secondItem="fQZ-KI-GVf" secondAttribute="trailing" id="XyZ-9z-H8e"/>
+                            <constraint firstItem="fQZ-KI-GVf" firstAttribute="bottom" secondItem="DIy-YJ-hfT" secondAttribute="bottom" constant="50" id="b8n-mn-ED3"/>
                             <constraint firstItem="YMg-MR-Ox4" firstAttribute="centerX" secondItem="U0K-SW-4ec" secondAttribute="centerX" id="bBJ-sn-LlM"/>
+                            <constraint firstItem="fQZ-KI-GVf" firstAttribute="trailing" secondItem="DIy-YJ-hfT" secondAttribute="trailing" constant="20" id="q7C-yh-9N5"/>
                             <constraint firstItem="BrB-h1-WRS" firstAttribute="top" secondItem="U0K-SW-4ec" secondAttribute="top" id="rJc-2c-zQA"/>
                             <constraint firstItem="YMg-MR-Ox4" firstAttribute="bottom" secondItem="fQZ-KI-GVf" secondAttribute="bottom" constant="-50" id="x44-dX-zuc"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="resultsButton" destination="DIy-YJ-hfT" id="w7D-bv-r2v"/>
                         <outlet property="scanButton" destination="YMg-MR-Ox4" id="e88-cu-5we"/>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="132" y="117"/>
+            <point key="canvasLocation" x="131.8840579710145" y="116.51785714285714"/>
         </scene>
     </scenes>
     <resources>

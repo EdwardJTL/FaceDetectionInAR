@@ -12,6 +12,7 @@
 		4714ECA726727F5400E8CB57 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4714ECA526727F5400E8CB57 /* Main.storyboard */; };
 		4714ECA926727F5500E8CB57 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4714ECA826727F5500E8CB57 /* Assets.xcassets */; };
 		4714ECAC26727F5500E8CB57 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4714ECAA26727F5500E8CB57 /* LaunchScreen.storyboard */; };
+		47283D48267290D100950267 /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47283D47267290D100950267 /* ModalView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		4714ECA626727F5400E8CB57 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4714ECA826727F5500E8CB57 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4714ECAB26727F5500E8CB57 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		47283D47267290D100950267 /* ModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 			children = (
 				4714EC9F26727F5400E8CB57 /* AppDelegate.swift */,
 				4714ECA326727F5400E8CB57 /* ViewController.swift */,
+				47283D47267290D100950267 /* ModalView.swift */,
 				4714ECA526727F5400E8CB57 /* Main.storyboard */,
 				4714ECA826727F5500E8CB57 /* Assets.xcassets */,
 				4714ECAA26727F5500E8CB57 /* LaunchScreen.storyboard */,
@@ -133,6 +136,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47283D48267290D100950267 /* ModalView.swift in Sources */,
 				4714ECA426727F5400E8CB57 /* ViewController.swift in Sources */,
 				4714ECA026727F5400E8CB57 /* AppDelegate.swift in Sources */,
 			);

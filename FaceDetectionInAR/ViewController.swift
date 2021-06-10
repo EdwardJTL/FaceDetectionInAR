@@ -8,15 +8,33 @@
 import UIKit
 import SceneKit
 import ARKit
+import SwiftUI
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
     
     @IBOutlet weak var scanButton: UIButton!
+    @IBOutlet weak var resultsButton: UIButton!
 
     var isDetectionAllowed: Bool = true
-    var sourceImage: CGImage?
+    var sourceImage: UIImage? {
+        didSet {
+            modalViewModal.updateSource(with: sourceImage)
+        }
+    }
+    var processedImage: UIImage? {
+        didSet {
+            modalViewModal.updateProcessed(with: processedImage)
+        }
+    }
+    var detectedFaces: Int = 0 {
+        didSet {
+            modalViewModal.updateFacesCount(with: detectedFaces)
+        }
+    }
+
+    var modalViewModal = ModalViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,23 +72,32 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         detectFaces()
     }
 
+    @IBAction func resultButtonPressed(_ sender: Any) {
+        let modalVC = UIHostingController(rootView: ModalView(viewModel: modalViewModal))
+        present(modalVC, animated: true, completion: nil)
+    }
+
     // MARK: - Detection Methods
     func detectFaces() {
+        sourceImage = nil
+        processedImage = nil
         guard let capture = sceneView.session.currentFrame?.capturedImage else {
             presentAlert(title: "No AR capture")
             return
         }
         isDetectionAllowed = false
         let ciImage = CIImage(cvPixelBuffer: capture)
-        let context = CIContext()
 
-        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
-            presentAlert(title: "Cant make cgImage")
-            isDetectionAllowed = true
-            return
+        let tempContext = CIContext(options: nil)
+        if let videoImage = tempContext.createCGImage(ciImage,
+                                                      from: CGRect(x: 0, y: 0,
+                                                                   width: CVPixelBufferGetWidth(capture),
+                                                                   height: CVPixelBufferGetHeight(capture))) {
+            sourceImage = UIImage(cgImage: videoImage)
         }
 
-        let detectionRequestHandler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+
+        let detectionRequestHandler = VNImageRequestHandler(cvPixelBuffer: capture, options: [:])
         let faceDetectionRequest = VNDetectFaceRectanglesRequest(completionHandler: self.onFaceDetected(request:error:))
         faceDetectionRequest.preferBackgroundProcessing = true
         do {
@@ -84,7 +111,52 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     func onFaceDetected(request: VNRequest, error: Error?) {
         defer { isDetectionAllowed = true }
         let visionResults = request.results?.compactMap { $0 as? VNFaceObservation }
-        print(visionResults.debugDescription)
+        detectedFaces = visionResults?.count ?? 0
+        drawProcessedImage(detections: visionResults)
+    }
+
+    func drawProcessedImage(detections: [VNFaceObservation]?) {
+        guard let sourceImage = sourceImage else {
+            print("No source image, cant draw")
+            return
+        }
+        guard let detections = detections else {
+            processedImage = sourceImage
+            return
+        }
+        let size = sourceImage.size
+        let scale: CGFloat = 0
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        guard let context = UIGraphicsGetCurrentContext() else {
+            print("No context, cant draw")
+            return
+        }
+
+        sourceImage.draw(at: CGPoint.zero)
+        let rectangles = detections.map { getRoi(from: $0.boundingBox, to: size) }
+        context.addRects(rectangles)
+        context.setFillColor(.init(red: 1, green: 0, blue: 0, alpha: 1))
+        context.drawPath(using: .fill)
+
+        guard let finalImage = UIGraphicsGetImageFromCurrentImageContext() else {
+            print("can't produce output")
+            processedImage = sourceImage
+            return
+        }
+
+        processedImage = finalImage
+    }
+
+    func getRoi(from normalizedRect: CGRect, to size: CGSize) -> CGRect {
+        let imageWidth = size.width
+        let imageHeight = size.height
+        var toRect = CGRect()
+
+        toRect.size.width = normalizedRect.size.width * imageWidth
+        toRect.size.height = normalizedRect.size.height * imageHeight
+        toRect.origin.y = imageHeight - (imageHeight * normalizedRect.origin.y) - toRect.size.height
+        toRect.origin.x = normalizedRect.origin.x * imageWidth
+        return toRect
     }
 
     func presentAlert(title: String, message: String? = nil) {
