@@ -27,6 +27,9 @@
                                 <buttonConfiguration key="configuration" style="plain" title="Detect">
                                     <imageReference key="image" image="person.fill.questionmark" catalog="system"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="scanButtonPressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="4LE-wl-jmR"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fQZ-KI-GVf"/>
@@ -41,6 +44,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="scanButton" destination="YMg-MR-Ox4" id="e88-cu-5we"/>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
                     </connections>
                 </viewController>
